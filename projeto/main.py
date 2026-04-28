@@ -2,19 +2,26 @@
 # * Sistema Gerenciador de Escolas
 # * Este é o arquivo principal do projeto, onde eu estou praticando algumas coisas que eu aprendi até agora em Python.
 
-# ? Última atualização no código - 21/04/2026
-# ! Correções:
-    # * Modificar o código pra armazenar mais de uma escola.
-    # * Finalizar a parte de editar a escola cadastrada.
-    # * Verificar se as outra funções estão corretas.
+# ? Última atualização no código - 28/04/2026
 
-# ? Melhorias:
-    # * Finalizar a parte de editar a escola cadastrada.
-    # * Atribuir a opção de encerrar o código no menu de interação.
+# ! Correções:
+    # * Finalizar a parte de editar a escola cadastrada. 
+    # * Verificar se as outra funções estão corretas.  
+    # * Atribuir a opção de encerrar o código no menu de interação. 
 
 # ! Problemas que eu ainda tenho que resolver: 
-    # * Estou com um pouco de dificuldade para cadastrar novas escolas, mas estou focado em resolver esse problema.
-    # * Atualmente meu foco é corrigir a classe de cadastro para conseguir cadastrar novas escolas.
+    # * Depois de algum tempo consegui resolver o problema de cadastrar mais de uma escola.
+    # * Atualmente meu foco é corrigir a classe de editar escola e de remover escola.
+
+# ! O que eu estava errando.
+    # * Depois de alguns dias tentando resolver o problema de cadastro de mais de uma escola, percebi que o que
+    # * estava impedindo esse cadastro era o fato de a lista que eu havia criado estar sendo atualizada toda vez que
+    # * a função de cadastro era chamada no código. Ou seja, dessa forma, o código até criava a lista e armazenava
+    # * os valores, mas, a cada vez que essa função era chamada, ele recriava a lista vazia.
+
+# ? Correção:
+    # * Criei a lista dentro da classe, mas fora das funções. Dessa forma, ela podia ser acessada por todos os objetos e,
+    # * mesmo ao chamar a função de cadastro, continuava com as informações, pois não era mais atualizada toda vez.
 
 import time
 
@@ -24,12 +31,10 @@ class Cadastro_Escola:
         self.endereco_escola = endereco_escola
         self.cep_escola = cep_escola
 
-    # ! Estou tentando armazenar as informações do cadastro em uma lista
-    # ! essa lista criada abaixo foi pra tentar armazenar...
     lista_escola = []
 
-    # ! Classe que cadastra as escolas
-    # Tenho que modificar o código para conseguir adicionar mais de uma escola no sistema.
+    # ? Classe que cadastra as escolas.
+
     def cadastrar_escola(self):
 
         print("=" * 7," Cadastrar Escola no Sistema ", "=" * 7,"\n")
@@ -38,32 +43,32 @@ class Cadastro_Escola:
         self.cep_escola = input("School cep: ")
         print("=" * 45)
 
+        escolas_cadastradas = [self.nome_escola, self.endereco_escola, self.cep_escola]
+        self.lista_escola.append(escolas_cadastradas)
+
         if self.cadastro_vazio():
             print("\nNão foi possível cadastrar.\nAlguma informação foi preenchida errada, tente novamente.\n")
             return self.cadastrar_escola()
+        
+    # ? Classe que verifica se as linhas de cadastro foram preenchidas corretamente.
 
-        # Ainda não sei como fazer pra adicionar várias escolas, mas uma hora eu consigo.
-        # estou realizando alguns testes.
-
-        # ! Aqui estou tentando realizar o cadastro de mais de uma escola
-        # Cadastro_Escola.lista_escola.append(self.nome_escola)
-        # Cadastro_Escola.lista_escola.append(self.endereco_escola)
-        # Cadastro_Escola.lista_escola.append(self.cep_escola)
-    
     def cadastro_vazio(self):
         return not self.nome_escola or not self.endereco_escola or not self.cep_escola
 
-      #  Essa classe não foi tão modificada, porque eu ainda não acertei a classe de cadastro
-    #  acredito que depois que eu conseguir resolver a classe de cadastro, alguns erros vão surgir aqui nessa classe.
+
+    # ! Essa classe vai ser o meu foco agora que consegui resolver o problema da função de cadastro
     def exibir_escola(self):
 
         if self.nome_escola is None and self.endereco_escola is None and self.cep_escola is None:
             print("Error!\nNenhuma escola cadastrada.\nVolte ao menu e realize o cadastro de uma escola.")
+        
+        print(f"======== Escolas Cadastradas no Sistema ========\n")
+        for i in self.lista_escola:
+            print("======== INFORMAÇÕES DA ESCOLA",[] ,"========")
+            print("Name school: ", i[0])
+            print("Adress school: ", i[1])
+            print("cep school: ", i[2])
 
-        print("======== Escolas Cadastradas no Sistema ========\n")
-        print("Name school: ", self.nome_escola)
-        print("Adress school: ", self.endereco_escola)
-        print("cep school: ", self.cep_escola)
     
     def remover_escola(self):
 
@@ -117,7 +122,7 @@ class Cadastro_Escola:
             self.remover_escola()
             return self.listar_opcoes()
 
-# Armazenando a classe em uma variavel e chamando a função para testar
+# Ainda não sei muito bem pra que serve isso, mas sei que é algo necessário
 if __name__ == "__main__":
 
     teste = Cadastro_Escola()
